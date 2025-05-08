@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title data-translate-key="title">My Portfolio</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+    <script>
+        // Функція для перекладу сторінки
+        function translatePage(lang) {
+            const translations = {
+                en: {
+                    title: "My Portfolio",
+                    aboutMe: "About Me",
+                    projects: "Projects",
+                    skills: "Skills",
+                    contact: "Contact",
+                    aboutMeTitle: "About Me",
+                    aboutMeText: `QA Engineer with over 5 years of experience in manual testing, including team
+leadership and process establishment.
+Skilled in executing and optimizing test cases, conducting various testing types
+(smoke, regression, UAT), and setting up testing processes from scratch. Proven
+ability to identify and document software defects, drive continuous improvements in
+testing methodologies, and ensure software quality. Demonstrated experience in
+leading teams, coordinating tasks for local and remote teams, and fostering
+efficient communication. Intermediate English proficiency. ISTQB Certified.`,
+                    projectsTitle: "My Projects",
+                    projectTitle1: "Payzaar",
+                    projectDescription1: "Short description of project",
+                    projectTitle2: "Relativity",
+                    projectDescription2: "Short description of project ",
+                    projectTitle3: "MediaTools",
+                    projectDescription3: "Short description of project ",
+                    viewProject: "View Project",
+                    skillsTitle: "My Skills",
+                    webDevelopment: "Web Development",
+                    backendDevelopment: "Backend Development",
+                    tools: "Tools",
+                    contactTitle: "Contact",
+                    contactText: "You can reach me via:",
+                    email: "Email:",
+                    linkedIn: "LinkedIn:",
+                    footer: "© 2024 My Portfolio. All rights reserved.",
+                },
+                uk: {
+                    title: "Моє Портфоліо",
+                    aboutMe: "Про мене",
+                    projects: "Проєкти",
+                    skills: "Навички",
+                    contact: "Контакти",
+                    aboutMeTitle: "Про мене",
+                    aboutMeText: `Привіт! Мене звати [Твоє Ім'я], [Твоя Посада/Роль]. Я захоплююся [Твої Захоплення/Інтереси].
+                        Маю досвід у [Твої Навички/Досвід]. Моя мета - [Твої Професійні Цілі].`,
+                    projectsTitle: "Мої Проєкти",
+                    projectTitle1: "Назва Проєкту 1",
+                    projectDescription1: "Короткий опис проєкту 1. Використані технології: HTML, CSS, JavaScript.",
+                    projectTitle2: "Назва Проєкту 2",
+                    projectDescription2: "Короткий опис проєкту 2. Використані технології: React, Node.js, Tailwind CSS.",
+                    projectTitle3: "Назва Проєкту 3",
+                    projectDescription3: "Короткий опис проєкту 3. Використані технології: Python, Django, PostgreSQL.",
+                    viewProject: "Переглянути Проєкт",
+                    skillsTitle: "Мої Навички",
+                    webDevelopment: "Веб-розробка",
+                    backendDevelopment: "Розробка Backend",
+                    tools: "Інструменти",
+                    contactTitle: "Контакти",
+                    contactText: "Зі мною можна зв'язатися через:",
+                    email: "Електронна пошта:",
+                    linkedIn: "LinkedIn:",
+                    footer: "© 2024 Моє Портфоліо. Всі права захищено.",
+                },
+            };
+
+            const langData = translations[lang];
+
+            if (langData) {
+                document.documentElement.lang = lang;
+                // Use data attributes for robust selection
+                document.querySelectorAll('[data-translate-key]').forEach(element => {
+                    const key = element.getAttribute('data-translate-key');
+                    if (langData[key]) {
+                         if (element.tagName === 'TITLE') {
+                             document.title = langData[key];
+                        } else {
+                            element.textContent = langData[key];
+                        }
+                    }
+                });
+
+                 // Specific updates for elements within links using data-translate-key on a span
+                 document.querySelectorAll('a span[data-translate-key]').forEach(spanElement => {
+                     const key = spanElement.getAttribute('data-translate-key');
+                     if (langData[key]) {
+                         spanElement.textContent = langData[key] + ":"; // Assuming colon is always needed after the key
+                     }
+                 });
+
+
+                 // Project card updates using a loop for potentially more projects
+                const projectCards = document.querySelectorAll('#projects .project-card');
+                projectCards.forEach((card, index) => {
+                    const projectIndex = index + 1;
+                    const titleKey = `projectTitle${projectIndex}`;
+                    const descriptionKey = `projectDescription${projectIndex}`;
+                    const viewProjectKey = `viewProject`;
+
+                    if (langData[titleKey]) {
+                        const titleElement = card.querySelector('h3');
+                        if(titleElement) titleElement.textContent = langData[titleKey];
+                    }
+                    if (langData[descriptionKey]) {
+                         const descriptionElement = card.querySelector('p');
+                         if(descriptionElement) descriptionElement.textContent = langData[descriptionKey];
+                    }
+                    if (langData[viewProjectKey]) {
+                        // Assuming the link is the last element or can be selected reliably
+                         const linkElement = card.querySelector('a');
+                         if(linkElement) {
+                             linkElement.textContent = langData[viewProjectKey];
+                         }
+                    }
+                });
+            }
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            const langSelectDesktop = document.getElementById('lang-select');
+            const langSelectMobile = document.getElementById('lang-select-mobile');
+
+            // Set up event listener for desktop language selector
+            if (langSelectDesktop) {
+                langSelectDesktop.addEventListener('change', () => {
+                    const selectedLang = langSelectDesktop.value;
+                    translatePage(selectedLang); // Explicitly call translatePage
+                    localStorage.setItem('preferredLanguage', selectedLang);
+                    // Synchronize mobile selector if it exists
+                    if (langSelectMobile) {
+                        langSelectMobile.value = selectedLang;
+                    }
+                });
+            }
+
+            // Set up event listener for mobile language selector
+            if (langSelectMobile) {
+                 langSelectMobile.addEventListener('change', () => {
+                    const selectedLang = langSelectMobile.value;
+                    translatePage(selectedLang); // Explicitly call translatePage
+                    localStorage.setItem('preferredLanguage', selectedLang);
+                    // Synchronize desktop selector if it exists
+                    if (langSelectDesktop) {
+                        langSelectDesktop.value = selectedLang;
+                    }
+                });
+            }
+
+            // Initialize language on page load
+            const savedLang = localStorage.getItem('preferredLanguage');
+            const initialLang = savedLang || 'en'; // Use saved language or default to English
+
+            translatePage(initialLang); // Translate page on load
+
+            // Set initial value for selectors
+            if (langSelectDesktop) {
+                langSelectDesktop.value = initialLang;
+            }
+            if (langSelectMobile) {
+                langSelectMobile.value = initialLang;
+            }
+        });
+
+        // Гамбургер меню
+        const hamburgerBtn = document.getElementById('hamburger-btn');
+        const mobileMenu = document.getElementById('mobile-menu');
+        const closeMenuBtn = document.getElementById('close-menu-btn');
+
+        if (hamburgerBtn && mobileMenu && closeMenuBtn) {
+            hamburgerBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.add('hidden'); // Use flex as intended for layout
+            });
+
+            closeMenuBtn.addEventListener('click', () => {
+                mobileMenu.classList.add('hidden');
+                mobileMenu.classList.remove('flex');
+            });
+
+            // Закриття меню при кліку на посилання
+            const mobileMenuLinks = mobileMenu.querySelectorAll('nav ul li a');
+            mobileMenuLinks.forEach(link => {
+                link.addEventListener('click', () => {
+                    // Add a small delay to allow navigation before closing the menu
+                    setTimeout(() => {
+                         mobileMenu.classList.add('hidden');
+                         mobileMenu.classList.remove('flex');
+                    }, 300); // Adjust delay as needed
+                });
+            });
+        }
+    </script>
+</head>
+<body class="">
+    
+<header class="bg-blue-600 text-white fixed top-0 left-0 w-full shadow z-50">
+  <div class="container mx-auto px-6 py-4 flex justify-between items-center">
+    <a href="#" class="text-xl font-bold">My Portfolio</a>
+
+    <!-- Desktop nav -->
+    <nav class="hidden md:flex space-x-6">
+      <a href="#about_me" class="hover:text-blue-200">About Me</a>
+      <a href="#projects" class="hover:text-blue-200">Projects</a>
+      <a href="#skills" class="hover:text-blue-200">Skills</a>
+      <a href="#contact" class="hover:text-blue-200">Contact</a>
+    </nav>
+
+    <!-- Mobile menu button -->
+    <button id="hamburger-btn" class="md:hidden focus:outline-none">
+      <svg class="w-6 h-6" fill="none" stroke="currentColor" stroke-width="2"
+           viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round"
+              d="M4 6h16M4 12h16M4 18h16" />
+      </svg>
+    </button>
+  </div>
+
+
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="hidden md:hidden fixed top-16 left-0 w-full bg-blue-700 text-white px-6 py-4 z-40">
+    <nav class="flex flex-col space-y-4">
+      <a href="#about_me" class="hover:text-blue-200">About Me</a>
+      <a href="#projects" class="hover:text-blue-200">Projects</a>
+      <a href="#skills" class="hover:text-blue-200">Skills</a>
+      <a href="#contact" class="hover:text-blue-200">Contact</a>
+    </nav>
+  </div>
+</header>
+
+
+
+    <div id="mobile-menu" class="hidden fixed top-0 left-0 w-full h-full bg-gray-900 bg-opacity-90 z-60">
+        <div class="bg-gray-800 w-80 h-full absolute right-0 p-6">
+            <div class="flex justify-end mb-4">
+                <button id="close-menu-btn" class="text-white focus:outline-none" aria-label="Close Menu">
+                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
+                        <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12" />
+                    </svg>
+                </button>
+            </div>
+            <nav class="block">
+                <ul class="space-y-4">
+                    <li><a href="#about_me" class="block text-lg text-white hover:text-blue-300 transition duration-300" data-translate-key="aboutMe">About Me</a></li>
+                    <li><a href="#projects" class="block text-lg text-white hover:text-blue-300 transition duration-300" data-translate-key="projects">Projects</a></li>
+                    <li><a href="#skills" class="block text-lg text-white hover:text-blue-300 transition duration-300" data-translate-key="skills">Skills</a></li>
+                    <li><a href="#contact" class="block text-lg text-white hover:text-blue-300 transition duration-300" data-translate-key="contact">Contact</a></li>
+                </ul>
+            </nav>
+             <select id="lang-select-mobile" class="mt-6 bg-gray-700 text-white rounded-md px-3 py-2 focus:outline-none w-full" aria-label="Select Language">
+                <option value="en">EN</option>
+                <option value="uk">УКР</option>
+            </select>
+        </div>
+    </div>
+
+    <main class="pt-20 pb-10 container mx-auto px-4">
+        <section id="about_me" class="bg-white rounded-lg shadow-md py-10 px-6 mb-8">
+            <div class="flex flex-col md:flex-row items-center gap-8">
+                <div class="md:w-1/3 aspect-square overflow-hidden"> <!-- Додано aspect-square та overflow-hidden -->
+                    <img 
+                        src="C:\Users\vyurn\OneDrive\Desktop\Screenshot_1.png" 
+                        alt="Your Photo" 
+                        class="rounded-full shadow-lg w-full h-full object-cover" 
+                    >
+                </div>
+                <div class="md:w-2/3">
+                    <h2 class="text-3xl font-semibold text-blue-700 mb-4" data-translate-key="aboutMeTitle">About Me</h2>
+                    <p class="text-gray-700 leading-relaxed" data-translate-key="aboutMeText">
+                        QA Engineer with over 5 years of experience in manual testing, including team
+leadership and process establishment.
+Skilled in executing and optimizing test cases, conducting various testing types
+(smoke, regression, UAT), and setting up testing processes from scratch. Proven
+ability to identify and document software defects, drive continuous improvements in
+testing methodologies, and ensure software quality. Demonstrated experience in
+leading teams, coordinating tasks for local and remote teams, and fostering
+efficient communication. Intermediate English proficiency. ISTQB Certified.
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <section id="projects" class="bg-white rounded-lg shadow-md py-10 px-6 mb-8">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-6 text-left" data-translate-key="projectsTitle">My Projects</h2>
+            <div class="project-cards">
+                <div class="project-card">
+                    <img src="https://www.forvismazars.com/var/mazars/storage/images/media/local-contents/romania/3.-illustration-pictures/data-automation-and-validation_slideshow/56339197-1-eng-GB/277e99f19013-Data-Automation-and-Validation_slideshow.png" alt="Project 2" class="rounded-md mb-4 w-full h-auto object-cover">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate-key="projectTitle1">Payzsdfsdfsdfaar</h3>
+                    <p class="text-gray-600 mb-4" data-translate-key="projectDescription1">Short description of project 1. Technologies used: HTML, CSS, JavaScript.</p>
+                    <a href="https://www.payzaar.com/" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" data-translate-key="viewProject">View Project</a>
+                </div>
+                <div class="project-card">
+                    <img src="https://www.relativity.com/relativity/images/product/relativityone/relativityone-screenshot.png" alt="Project 2" class="rounded-md mb-4 w-full h-auto object-cover">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate-key="projectTitle2">Projectsdfsdf Title 2</h3>
+                    <p class="text-gray-600 mb-4" data-translate-key="projectDescription2">Short description of project 2. Technologies used: React, Node.js, Tailwind CSS.</p>
+                    <a href="https://www.relativity.com/" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" data-translate-key="viewProject">View Project</a>
+                </div>
+                <div class="project-card">
+                    <img src="https://mediatool.com/wp-content/uploads/global-local2.png" alt="Project 3" class="rounded-md mb-4 w-full h-auto object-cover">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate-key="projectTitle3">Project Title 3</h3>
+                    <p class="text-gray-600 mb-4" data-translate-key="projectDescription3">Short description of project 3. Technologies used: Python, Django, PostgreSQL.</p>
+                    <a href="https://mediatool.com" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" data-translate-key="viewProject">View Project</a>
+                </div>
+            </div>
+        </section>
+
+        <section id="skills" class="bg-white rounded-lg shadow-md py-10 px-6 mb-8">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-6 text-center" data-translate-key="skillsTitle">My Skills</h2>
+            <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+                <div class="skill-cards">
+                    <div class="skill-card">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate-key="projectTitle1">Project Title 1</h3>
+                        <p class="text-gray-600 mb-4" data-translate-key="projectDescription1">Short description of project 1. Technologies used: HTML, CSS, JavaScript.</p>
+                        <a href="#" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" data-translate-key="viewProject">View Project</a>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate-key="projectTitle1">Project Title 1</h3>
+                        <p class="text-gray-600 mb-4" data-translate-key="projectDescription1">Short description of project 1. Technologies used: HTML, CSS, JavaScript.</p>
+                        <a href="#" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" data-translate-key="viewProject">View Project</a>
+                    </div>
+                    <div class="skill-card">
+                        <h3 class="text-xl font-semibold text-gray-900 mb-2" data-translate-key="projectTitle1">Project Title 1</h3>
+                        <p class="text-gray-600 mb-4" data-translate-key="projectDescription1">Short description of project 1. Technologies used: HTML, CSS, JavaScript.</p>
+                        <a href="#" class="inline-block bg-blue-500 text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300" data-translate-key="viewProject">View Project</a>
+                    </div>
+
+                  <!--<h3 class="text-xl font-semibold text-gray-900 mb-4" data-translate-key="webDevelopment">Web Development</h3>
+                    <ul class="list-inside list-disc text-gray-700">
+                        <li>HTML5</li>
+                        <li>CSS3</li>
+                        <li>JavaScript (ES6+)</li>
+                        <li>React</li>
+                        <li>Tailwind CSS</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4" data-translate-key="backendDevelopment">Backend Development</h3>
+                    <ul class="list-inside list-disc text-gray-700">
+                        <li>Node.js</li>
+                        <li>Express.js</li>
+                        <li>Python</li>
+                        <li>Django</li>
+                        <li>SQL (PostgreSQL)</li>
+                    </ul>
+                </div>
+                <div class="skill-card">
+                    <h3 class="text-xl font-semibold text-gray-900 mb-4" data-translate-key="tools">Tools</h3>
+                    <ul class="list-inside list-disc text-gray-700">
+                        <li>Git</li>
+                        <li>GitHub/GitLab</li>
+                        <li>Webpack/Vite</li>
+                        <li>Docker</li>
+                        <li>Figma</li>
+                    </ul>
+                </div>
+            </div> -->
+        </section>
+
+        <section id="contact" class="bg-white rounded-lg shadow-md py-10 px-6 mb-8">
+            <h2 class="text-3xl font-semibold text-blue-700 mb-6 text-center" data-translate-key="contactTitle">Contact</h2>
+            <div class="text-center">
+                <p class="text-lg text-gray-700 mb-4" data-translate-key="contactText">
+                    You can reach me via:
+                </p>
+                <p class="text-blue-600 hover:text-blue-800 transition duration-300 text-lg">
+                    <a href="mailto:your.email@example.com"><span data-translate-key="email">Email:</span> your.email@example.com</a>
+                </p>
+                <p class="text-blue-600 hover:text-blue-800 transition duration-300 text-lg mt-2">
+                    <a href="https://www.linkedin.com/in/yourprofile" target="_blank" rel="noopener noreferrer"><span data-translate-key="linkedIn">LinkedIn:</span> linkedin.com/in/yourprofile</a>
+                </p>
+            </div>
+        </section>
+    </main>
+
+    <footer class="bg-gray-200 text-gray-700 py-4 text-center">
+        <p data-translate-key="footer">&copy; 2024 My Portfolio. All rights reserved.</p>
+    </footer>
+</body>
+</html>
