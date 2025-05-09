@@ -500,12 +500,55 @@ footer {
         margin-bottom: 8px;
     }
 }
+/* Desktop Navigation */
+.nav-link {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s ease-in-out;
+}
 
-@media (max-width: 640px) {
-    #about_me h2,
-    /* #projects h2, /* Project headers are now text-left */
-    #skills h2,
-    #contact h2 {
-        font-size: 1.75rem; /* Tailwind text-2xl */
-    }
+.nav-link::before {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  width: 0;
+  height: 2px;
+  background: #bae6fd;
+  transition: width 0.3s ease;
+}
+
+.nav-link:hover::before {
+  width: 100%;
+}
+
+/* Mobile Navigation */
+.mobile-nav-link {
+  position: relative;
+  transition: transform 0.2s ease;
+}
+
+.mobile-nav-link:active {
+  transform: scale(0.98);
+}
+
+.mobile-nav-link::after {
+  content: '';
+  position: absolute;
+  bottom: 0;
+  left: 5%;
+  width: 90%;
+  height: 1px;
+  background: rgba(255, 255, 255, 0.1);
+}
+
+/* Ховер для логотипу */
+header a[href="#"]:hover {
+  text-shadow: 0 0 8px rgba(186, 230, 253, 0.4);
+}
+
+@media (min-width: 768px) {
+  #mobile-menu {
+    display: none !important;
+  }
 }
